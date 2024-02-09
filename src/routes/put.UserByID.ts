@@ -15,10 +15,17 @@ miniCloneExpress.Put("/api/users/:id", (req, res) => {
 
         req.on("end", () => {
           const userModification = JSON.parse(body) as UserType;
-          user = userModification;
 
-          res.statusCode = 200;
-          res.end(JSON.stringify(user));
+          const u = checkUpdate(user!, userModification);
+
+          const result = bd.UpdateUser(u.id, u);
+          if (result) {
+            res.statusCode = 200;
+            res.end(JSON.stringify(u));
+          } else {
+            res.statusCode = 400;
+            res.end("Do not update user");
+          }
         });
       } else {
         res.statusCode = 404;
@@ -34,3 +41,20 @@ miniCloneExpress.Put("/api/users/:id", (req, res) => {
     res.end("Internal Server Error");
   }
 });
+
+function checkUpdate(oldO: UserType, newO: UserType) {
+  type InterationObject<T> = {
+    [key in keyof T]: T[key];
+  };
+
+  const test: InterationObject<UserType> = newO;
+
+  for (const key in test) {
+    const param = test[key as keyof UserType];
+    if (param) {
+      (oldO as any)[key] = param;
+    }
+  }
+
+  return oldO;
+}
