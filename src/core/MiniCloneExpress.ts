@@ -46,11 +46,21 @@ class MiniCloneExpress {
       const mapKey = `${method} ${pathbyid}`;
       const route = this.getRoute(mapKey);
       request.params = match[1];
-      if (route) route(request, res);
+      if (route) {
+        route(request, res);
+      } else {
+        res.statusCode = 404;
+        res.end("Not Found EndPoint");
+      }
     } else {
       const mapKey = `${method} ${path}`;
       const route = this.getRoute(mapKey);
-      if (route) route(request, res);
+      if (route) {
+        route(request, res);
+      } else {
+        res.statusCode = 404;
+        res.end("Not Found EndPoint");
+      }
     }
   });
 

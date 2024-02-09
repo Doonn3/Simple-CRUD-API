@@ -6,8 +6,11 @@ import "./routes/get.UserByID.js";
 import "./routes/post.SetUser.js";
 import "./routes/put.UserByID.js";
 import "./routes/delete.UserByID.js";
+import dotenv from 'dotenv';
+dotenv.config();
 
-const PORT = 4000;
+console.log(process.env.PORT);
+const PORT = process.env.PORT;
 const SERVER_STARTED_MESSAGE = `Server started on port ${PORT}`;
 
 // app.Server.on("request", loggerMiddleware);
