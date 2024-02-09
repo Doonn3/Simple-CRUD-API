@@ -32,6 +32,15 @@ class BD {
     return null;
   }
 
+  public UpdateUser(userID: string, user: UserType) {
+    if (this.userMap.has(userID)) {
+      this.userMap.set(userID, user);
+      return true;
+    }
+
+    return false;
+  }
+
   public GetAll() {
     const result = this.userMap.values();
     return [...result];
